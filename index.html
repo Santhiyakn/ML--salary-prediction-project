@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            /* margin: 0; */
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            margin-top: 50%;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        label {
+            font-size: 16px;
+            color: #333;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .prediction-result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Salary Prediction</h1>
+
+        <form id="prediction-form">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required><br>
+
+            <label for="workclass">Workclass:</label>
+            <input type="text" id="workclass" name="workclass" required><br>
+
+            <label for="fnlwgt">Fnlwgt:</label>
+            <input type="number" id="fnlwgt" name="fnlwgt" required><br>
+
+            <label for="education">Education:</label>
+            <input type="text" id="education" name="education" required><br>
+
+            <label for="education-num">Education-num:</label>
+            <input type="number" id="education-num" name="education-num" required><br>
+
+            <label for="marital-status">Marital-status:</label>
+            <input type="text" id="marital-status" name="marital-status" required><br>
+
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" name="occupation" required><br>
+
+            <label for="relationship">Relationship:</label>
+            <input type="text" id="relationship" name="relationship" required><br>
+
+            <label for="race">Race:</label>
+            <input type="text" id="race" name="race" required><br>
+
+            <label for="sex">Sex:</label>
+            <input type="text" id="sex" name="sex" required><br>
+
+            <label for="capital-gain">Capital-gain:</label>
+            <input type="number" id="capital-gain" name="capital-gain" required><br>
+
+            <label for="capital-loss">Capital-loss:</label>
+            <input type="number" id="capital-loss" name="capital-loss" required><br>
+
+            <label for="hours-per-week">Hours-per-week:</label>
+            <input type="number" id="hours-per-week" name="hours-per-week" required><br>
+
+            <label for="native-country">Native-country:</label>
+            <input type="text" id="native-country" name="native-country" required><br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="prediction-result" class="prediction-result"></div>
+    </div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission from reloading the page
+
+            // Collect form data
+            const formData = {
+                age: document.getElementById('age').value,
+                workclass: document.getElementById('workclass').value,
+                fnlwgt: document.getElementById('fnlwgt').value,
+                education: document.getElementById('education').value,
+                'education-num': document.getElementById('education-num').value,
+                'marital-status': document.getElementById('marital-status').value,
+                occupation: document.getElementById('occupation').value,
+                relationship: document.getElementById('relationship').value,
+                race: document.getElementById('race').value,
+                sex: document.getElementById('sex').value,
+                'capital-gain': document.getElementById('capital-gain').value,
+                'capital-loss': document.getElementById('capital-loss').value,
+                'hours-per-week': document.getElementById('hours-per-week').value,
+                'native-country': document.getElementById('native-country').value
+            };
+
+            // Send POST request to Flask API
+            fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultElement = document.getElementById('prediction-result');
+                if (data.prediction) {
+                    resultElement.textContent = `Prediction: ${data.prediction}`;
+                    resultElement.className = 'prediction-result success';
+                } else {
+                    resultElement.textContent = `Error: ${data.error}`;
+                    resultElement.className = 'prediction-result error';
+                }
+            })
+            .catch(error => {
+                const resultElement = document.getElementById('prediction-result');
+                resultElement.textContent = `Error: ${error}`;
+                resultElement.className = 'prediction-result error';
+            });
+        });
+    </script>
+
+</body>
+</html>
