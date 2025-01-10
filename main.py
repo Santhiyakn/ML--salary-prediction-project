@@ -7,7 +7,7 @@ import pandas as pd
 import pickle
 
 
-data = pd.read_csv(r"C:\ML-SALARY PREDICTION-project\raw.data.csv", header=None, names=[
+data = pd.read_csv("data/raw.data.csv", header=None, names=[
     'age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status',
     'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss',
     'hours-per-week', 'native-country', 'salary'
