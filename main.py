@@ -42,7 +42,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 pipeline.fit(X_train, y_train)
 
-with open("salary_prediction_pipeline.pkl", "wb") as file:
+with open("models/salary_prediction_pipeline.pkl", "wb") as file:
     pickle.dump(pipeline, file)
 
 print("Model training complete and saved to 'salary_prediction_pipeline.pkl'")
