@@ -127,9 +127,8 @@
 
     <script>
         document.getElementById('prediction-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission from reloading the page
-
-            // Collect form data
+            event.preventDefault(); 
+            
             const formData = {
                 age: document.getElementById('age').value,
                 workclass: document.getElementById('workclass').value,
@@ -147,7 +146,7 @@
                 'native-country': document.getElementById('native-country').value
             };
 
-            // Send POST request to Flask API
+           
             fetch('http://127.0.0.1:5000/predict', {
                 method: 'POST',
                 headers: {
