@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pickle
 import pandas as pd
 
-with open("salary_prediction_pipeline.pkl", "rb") as file:
+with open("models/salary_prediction_pipeline.pkl", "rb") as file:
     pipeline = pickle.load(file)
 
 app = Flask(__name__)
